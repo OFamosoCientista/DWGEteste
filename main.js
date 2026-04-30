@@ -97,7 +97,7 @@ onAuthStateChanged(auth, (user) => {
 });
 
 // 🔹 LOGOUT
-function fazerLogout() {
+window.fazerLogout = function () {
   signOut(auth)
     .then(() => {
       alert("Saiu da conta");
