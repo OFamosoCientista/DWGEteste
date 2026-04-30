@@ -136,7 +136,6 @@ document.getElementById("registerBtn").addEventListener("click", () => {
 
 const testeusu = null;
 
-
 window.addEventListener("DOMContentLoaded", () => {
     const user = JSON.parse(localStorage.getItem("userLogged"));
     testeusu = JSON.parse(localStorage.getItem("userLogged"));
