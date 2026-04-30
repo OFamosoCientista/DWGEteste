@@ -158,6 +158,8 @@ window.addEventListener("DOMContentLoaded", () => {
     }
 });
 
-function tstusu(){
+const teste = document.getElementById('teste');
+
+teste.addEventListener('click', () => {
   console.log(testeusu);
-}
+});
