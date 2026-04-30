@@ -164,7 +164,7 @@ window.addEventListener("DOMContentLoaded", () => {
     }
 });
 
-function aparece() {
+function aparecer() {
   console.log("passou por aqui");
-  console.log(testeusu);
+  console.log(user);
 }
