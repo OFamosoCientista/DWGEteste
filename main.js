@@ -134,7 +134,7 @@ document.getElementById("registerBtn").addEventListener("click", () => {
     });
 });
 
-const testeusu = null;
+let testeusu = null;
 
 window.addEventListener("DOMContentLoaded", () => {
     const user = JSON.parse(localStorage.getItem("userLogged"));
@@ -160,9 +160,7 @@ window.addEventListener("DOMContentLoaded", () => {
     }
 });
 
-const teste = document.getElementById('teste');
-
-function aparece(){
+function aparece() {
   console.log("passou por aqui");
   console.log(testeusu);
 }
