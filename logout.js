@@ -24,7 +24,7 @@ window.fazerLogout = function () {
   signOut(auth)
     .then(() => {
       alert("Saiu da conta");
-      window.location.href = "login.html";
+      window.location.href = "index.html";
     })
     .catch((error) => {
       console.error(error);
