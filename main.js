@@ -163,7 +163,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
 const teste = document.getElementById('teste');
 
-teste.addEventListener('click', () => {
+function aparece(){
   console.log("passou por aqui");
   console.log(testeusu);
-});
+}
