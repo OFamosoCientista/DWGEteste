@@ -111,3 +111,69 @@ input {
 button {
   cursor: pointer;
 }
+
+/* RESPONSIVIDADE */
+@media (max-width: 1024px) {
+  .cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .info {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
+
+  nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  nav a {
+    margin: 5px 10px;
+  }
+
+  .hero {
+    padding: 40px 20px;
+  }
+
+  .hero h1 {
+    font-size: 24px;
+  }
+
+  .cards {
+    grid-template-columns: 1fr;
+  }
+
+  .servicos {
+    padding: 20px;
+  }
+
+  .info {
+    padding: 20px;
+  }
+
+  .footer-content {
+    flex-direction: column;
+    gap: 20px;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .buttons button {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .hero {
+    margin: 10px;
+  }
+}
