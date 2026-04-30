@@ -140,15 +140,15 @@ window.addEventListener("DOMContentLoaded", () => {
     const loginBtn = document.querySelector("loginBtn");
 
     if (user) {
-        loginBtn.textContent = "Logout";
+      loginBtn.textContent = "Login";
+      loginBtn.href = "index.html";
+    } else {
+      loginBtn.textContent = "Logout";
 
         loginBtn.addEventListener("click", () => {
             localStorage.removeItem("userLogged");
             signOut(auth);
             window.location.reload();
         });
-    } else {
-        loginBtn.textContent = "Login";
-        loginBtn.href = "index.html";
     }
 });
