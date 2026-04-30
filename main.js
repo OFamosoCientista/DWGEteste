@@ -137,7 +137,7 @@ document.getElementById("registerBtn").addEventListener("click", () => {
 window.addEventListener("DOMContentLoaded", () => {
     const user = JSON.parse(localStorage.getItem("userLogged"));
 
-    const loginBtn = document.querySelector(".btn-login");
+    const loginBtn = document.querySelector("loginBtn");
 
     if (user) {
         loginBtn.textContent = "Logout";
