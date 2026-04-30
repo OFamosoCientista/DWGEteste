@@ -2,66 +2,47 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Portal Previdenciário</title>
+  <title>Login</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
 <header>
   <div class="logo">Portal Previdenciário</div>
   <nav>
-    <a>Inicio</a>
+    <a href="index.html">Início</a>
     <a href="servicos.html">Serviços</a>
     <a href="sobre.html">Sobre</a>
     <a href="contato.html">Contato</a>
-    <a href="login.html" class="btn-login">Login</a>
   </nav>
 </header>
+
 <section class="hero">
   <div class="hero-content">
-    <h1>Cálculos de Alta Precisão para sua Aposentadoria</h1>
-    <p>Simule seu tempo de contribuição e revise benefícios com base nas regras atualizadas.</p>
-    <div class="buttons">
-      <a href="calculadoras.html">
-        <button class="primary">Calcular Agora</button>
-      </a>
-      <button class="secondary">Ver Demonstração</button>
-    </div>
+    <h1>Área do Cliente</h1>
   </div>
 </section>
-<section class="servicos">
-  <h2>Nossos Serviços de Cálculo</h2>
-  <div class="">
 
-</div>
-</section>
-<section class="info">
-  <div class="text">
-    <h2>Por que planejar com a gente?</h2>
-    <ul>
-      <li>Dados 100% seguros</li>   
-    </ul>
+<section class="servicos">
+  <div class="card">
+    <h2>Login</h2>
+
+    <input type="email" id="user" placeholder="Email"><br><br>
+    <input type="password" id="pass" placeholder="Senha"><br><br>
+
+    <button id="loginBtn">Entrar</button>
+    <button id="registerBtn">Criar Conta</button>
+
+    <p id="msg"></p>
   </div>
-  <div class="box-highlight">
-    <p>+24% no valor do benefício</p>
-  </div>
 </section>
+
 <footer>
   <div class="footer-content">
-    <div>
-      <h3>Portal Previdenciário</h3>
-      <p>Especialistas em cálculos previdenciários.</p>
-    </div>
-    <div>
-      <h4>Serviços</h4>
-      <p>Cálculo de Tempo</p>
-      <p>Planejamento</p>
-    </div>
-    <div>
-      <h4>Empresa</h4>
-      <p>Sobre</p>
-      <p>Privacidade</p>
-    </div>
+    <h3>Portal Previdenciário</h3>
   </div>
 </footer>
+
+<script type="module" src="main.js"></script>
 </body>
 </html>
