@@ -136,6 +136,7 @@ document.getElementById("registerBtn").addEventListener("click", () => {
 
 window.addEventListener("DOMContentLoaded", () => {
     const user = JSON.parse(localStorage.getItem("userLogged"));
+    const testeusu = JSON.parse(localStorage.getItem("userLogged"));
 
     const loginBtn = document.querySelector("#loginBtn");
 
@@ -156,3 +157,7 @@ window.addEventListener("DOMContentLoaded", () => {
         loginBtn.href = "login.html";
     }
 });
+
+function tstusu(){
+  console.log(testeusu);
+}
