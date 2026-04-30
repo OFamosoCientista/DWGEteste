@@ -27,6 +27,7 @@ const createAccountBtn = document.getElementById('registerBtn')
 const loginBtn = document.getElementById('loginBtn')
 const logoutBtn = document.getElementById('logout-button')
 
+if(createAccountBtn){
 createAccountBtn.addEventListener('click', () => {
     createUserWithEmailAndPassword(auth, email.value, password.value)
         .then((userCredential) => {
@@ -47,7 +48,9 @@ createAccountBtn.addEventListener('click', () => {
 
     sessionStorage.setItem(ususu, email.value);
 })
+}
 
+if(loginBtn){
 loginBtn.addEventListener('click', () => {
     signInWithEmailAndPassword(auth, email.value, password.value)
         .then((userCredential) => {
@@ -68,6 +71,7 @@ loginBtn.addEventListener('click', () => {
 
     sessionStorage.setItem(ususu, email.value);
 })
+}
 
 //daqui pra baixo é putaria
 
