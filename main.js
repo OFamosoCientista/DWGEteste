@@ -164,7 +164,11 @@ window.addEventListener("DOMContentLoaded", () => {
     }
 });
 
-function aparecer() {
-  console.log("passou por aqui");
-  console.log(user);
+const btn = document.getElementById("btnAparecer");
+
+if (btn) {
+  btn.addEventListener("click", () => {
+    console.log("passou por aqui");
+    console.log(user);
+  });
 }
