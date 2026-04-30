@@ -149,6 +149,6 @@ window.addEventListener("DOMContentLoaded", () => {
         });
     } else {
         loginBtn.textContent = "Login";
-        loginBtn.href = "login.html";
+        loginBtn.href = "index.html";
     }
 });
