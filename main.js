@@ -97,7 +97,7 @@ onAuthStateChanged(auth, (user) => {
 });
 
 // 🔹 LOGOUT
-window.fazerLogout = function () {
+fazerLogout() {
   signOut(auth)
     .then(() => {
       alert("Saiu da conta");
