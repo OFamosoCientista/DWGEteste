@@ -133,3 +133,22 @@ document.getElementById("registerBtn").addEventListener("click", () => {
       msg.innerText = "Erro: " + error.message;
     });
 });
+
+window.addEventListener("DOMContentLoaded", () => {
+    const user = JSON.parse(localStorage.getItem("userLogged"));
+
+    const loginBtn = document.querySelector(".btn-login");
+
+    if (user) {
+        loginBtn.textContent = "Logout";
+
+        loginBtn.addEventListener("click", () => {
+            localStorage.removeItem("userLogged");
+            signOut(auth);
+            window.location.reload();
+        });
+    } else {
+        loginBtn.textContent = "Login";
+        loginBtn.href = "login.html";
+    }
+});
