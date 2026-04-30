@@ -137,18 +137,22 @@ document.getElementById("registerBtn").addEventListener("click", () => {
 window.addEventListener("DOMContentLoaded", () => {
     const user = JSON.parse(localStorage.getItem("userLogged"));
 
-    const loginBtn = document.querySelector("loginBtn");
+    const loginBtn = document.querySelector("#loginBtn");
+
+    // segurança extra (evita erro se não existir na página)
+    if (!loginBtn) return;
 
     if (user) {
-      loginBtn.textContent = "Login";
-      loginBtn.href = "index.html";
-    } else {
-      loginBtn.textContent = "Logout";
+        loginBtn.textContent = "Logout";
 
         loginBtn.addEventListener("click", () => {
             localStorage.removeItem("userLogged");
             signOut(auth);
             window.location.reload();
         });
+
+    } else {
+        loginBtn.textContent = "Login";
+        loginBtn.href = "login.html";
     }
 });
