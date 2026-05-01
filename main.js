@@ -42,33 +42,71 @@ function clearLocalUser() {
   localStorage.removeItem("userLogged");
 }
 
+function validateCredentials() {
+  if (!emailInput || !passwordInput || !msg) return false;
+
+  const email = emailInput.value.trim();
+  const password = passwordInput.value.trim();
+
+  if (!email || !password) {
+    msg.innerText = "Preencha email e senha.";
+    return false;
+  }
+
+  if (password.length < 6) {
+    msg.innerText = "A senha deve ter pelo menos 6 caracteres.";
+    return false;
+  }
+
+  return true;
+}
+
+function getErrorMessage(error) {
+  switch (error.code) {
+    case "auth/email-already-in-use":
+      return "Este email já está em uso.";
+    case "auth/invalid-email":
+      return "Email inválido.";
+    case "auth/weak-password":
+      return "A senha deve ter pelo menos 6 caracteres.";
+    case "auth/wrong-password":
+      return "Senha incorreta.";
+    case "auth/user-not-found":
+      return "Usuário não encontrado.";
+    default:
+      return error.message || "Erro desconhecido.";
+  }
+}
+
 function handleSignIn() {
-  if (!emailInput || !passwordInput) return;
+  if (!validateCredentials()) return;
 
   signInWithEmailAndPassword(auth, emailInput.value, passwordInput.value)
     .then((userCredential) => {
       const user = userCredential.user;
       saveUserLocally(user);
-      if (msg) msg.innerText = "Login realizado!";
+      msg.innerText = "Login realizado!";
       window.location.href = "home.html";
     })
     .catch((error) => {
-      if (msg) msg.innerText = "Erro: " + error.message;
+      console.error("Login error:", error.code, error.message);
+      msg.innerText = "Erro: " + getErrorMessage(error);
     });
 }
 
 function handleSignUp() {
-  if (!emailInput || !passwordInput) return;
+  if (!validateCredentials()) return;
 
   createUserWithEmailAndPassword(auth, emailInput.value, passwordInput.value)
     .then((userCredential) => {
       const user = userCredential.user;
       saveUserLocally(user);
-      if (msg) msg.innerText = "Conta criada!";
+      msg.innerText = "Conta criada!";
       window.location.href = "home.html";
     })
     .catch((error) => {
-      if (msg) msg.innerText = "Erro: " + error.message;
+      console.error("Cadastro error:", error.code, error.message);
+      msg.innerText = "Erro: " + getErrorMessage(error);
     });
 }
 
@@ -85,18 +123,21 @@ if (status) {
 }
 
 onAuthStateChanged(auth, (user) => {
+  const currentPage = window.location.pathname.split("/").pop();
+  const protectedPages = ["home.html", "login.html"];
+
   if (status) {
     status.innerText = user ? "Logado como: " + user.email : "Você não está logado";
   }
 
   if (user) {
     saveUserLocally(user);
-    if (window.location.pathname.includes("login.html") || window.location.pathname.includes("index.html")) {
+    if (currentPage === "index.html") {
       window.location.href = "home.html";
     }
   } else {
     clearLocalUser();
-    if (window.location.pathname.includes("home.html")) {
+    if (protectedPages.includes(currentPage)) {
       window.location.href = "index.html";
     }
   }
