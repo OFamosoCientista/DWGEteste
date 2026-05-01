@@ -1,11 +1,13 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getAuth, 
-         createUserWithEmailAndPassword, 
-         signInWithEmailAndPassword, 
-         GoogleAuthProvider,
-         signInWithPopup,
-         onAuthStateChanged,
-         signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+  signOut,
+  browserLocalPersistence,
+  setPersistence,
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDIkzpgOz8uDRSmv8Flo76ekwqzG4t_2EQ",
@@ -14,145 +16,100 @@ const firebaseConfig = {
   storageBucket: "portprev-d81ba.firebasestorage.app",
   messagingSenderId: "593362605191",
   appId: "1:593362605191:web:7d013144e93e51c24fd422",
-  measurementId: "G-47WS7923C2"
+  measurementId: "G-47WS7923C2",
 };
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth();
 
-const email = document.getElementById('user')
-const password = document.getElementById('pass')
+const emailInput = document.getElementById("user");
+const passwordInput = document.getElementById("pass");
+const createAccountBtn = document.getElementById("registerBtn");
+const loginBtn = document.getElementById("loginBtn");
+const msg = document.getElementById("msg");
+const status = document.getElementById("status");
 
-const createAccountBtn = document.getElementById('registerBtn')
-const loginBtn = document.getElementById('loginBtn')
-const logoutBtn = document.getElementById('logout-button')
+setPersistence(auth, browserLocalPersistence).catch((error) => {
+  console.warn("Firebase persistence error:", error.message);
+});
 
-createAccountBtn.addEventListener('click', () => {
-    createUserWithEmailAndPassword(auth, email.value, password.value)
-        .then((userCredential) => {
-            // Signed up 
-            const user = userCredential.user;
-            console.log(user)
-            // ...
-        })
-        .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            console.log(errorMessage)
-            // ..
-        });
-    console.log('Create Account Button Clicked')
-    console.log(`Email: ${email.value}`)
-    console.log(`Password: ${password.value}`)
+function saveUserLocally(user) {
+  if (!user) return;
+  localStorage.setItem("userLogged", JSON.stringify({ email: user.email }));
+}
 
-    sessionStorage.setItem(ususu, email.value);
-})
+function clearLocalUser() {
+  localStorage.removeItem("userLogged");
+}
 
-loginBtn.addEventListener('click', () => {
-    signInWithEmailAndPassword(auth, email.value, password.value)
-        .then((userCredential) => {
-            // Signed in 
-            const user = userCredential.user;
-            console.log(user)
-            // ...
-        })
-        .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            console.log(errorMessage)
-        });
+function handleSignIn() {
+  if (!emailInput || !passwordInput) return;
 
-    console.log('Login Clicked')
-    console.log(`Email: ${email.value}`)
-    console.log(`Password: ${password.value}`)
+  signInWithEmailAndPassword(auth, emailInput.value, passwordInput.value)
+    .then((userCredential) => {
+      const user = userCredential.user;
+      saveUserLocally(user);
+      if (msg) msg.innerText = "Login realizado!";
+      window.location.href = "home.html";
+    })
+    .catch((error) => {
+      if (msg) msg.innerText = "Erro: " + error.message;
+    });
+}
 
-    sessionStorage.setItem(ususu, email.value);
-})
+function handleSignUp() {
+  if (!emailInput || !passwordInput) return;
 
-//daqui pra baixo é putaria
+  createUserWithEmailAndPassword(auth, emailInput.value, passwordInput.value)
+    .then((userCredential) => {
+      const user = userCredential.user;
+      saveUserLocally(user);
+      if (msg) msg.innerText = "Conta criada!";
+      window.location.href = "home.html";
+    })
+    .catch((error) => {
+      if (msg) msg.innerText = "Erro: " + error.message;
+    });
+}
 
-// 🔹 MONITORA LOGIN (ESSA É A PARTE MAIS IMPORTANTE)
+if (loginBtn) {
+  loginBtn.addEventListener("click", handleSignIn);
+}
+
+if (createAccountBtn) {
+  createAccountBtn.addEventListener("click", handleSignUp);
+}
+
+if (status) {
+  status.innerText = "Carregando...";
+}
+
 onAuthStateChanged(auth, (user) => {
-  const status = document.getElementById("status");
+  if (status) {
+    status.innerText = user ? "Logado como: " + user.email : "Você não está logado";
+  }
 
   if (user) {
-    console.log("Logado:", user.email);
-
-    if (status) {
-      status.innerText = "Logado como: " + user.email;
+    saveUserLocally(user);
+    if (window.location.pathname.includes("login.html") || window.location.pathname.includes("index.html")) {
+      window.location.href = "home.html";
     }
-
   } else {
-    console.log("Não logado");
-
-    if (status) {
-      status.innerText = "Você não está logado";
-    }
-
-    // 🔒 BLOQUEIA PÁGINAS PROTEGIDAS
+    clearLocalUser();
     if (window.location.pathname.includes("home.html")) {
-      window.location.href = "login.html";
+      window.location.href = "index.html";
     }
   }
 });
 
-// 🔹 LOGOUT
 window.fazerLogout = function () {
   signOut(auth)
     .then(() => {
+      clearLocalUser();
       alert("Saiu da conta");
-      window.location.href = "login.html";
+      window.location.href = "index.html";
     })
     .catch((error) => {
       console.error(error);
     });
 };
-
-const senha = document.getElementById("pass");
-const msg = document.getElementById("msg");
-
-// 🔹 LOGIN
-document.getElementById("loginBtn").addEventListener("click", () => {
-  signInWithEmailAndPassword(auth, email.value, senha.value)
-    .then(() => {
-      msg.innerText = "Login realizado!";
-      window.location.href = "home.html";
-    })
-    .catch((error) => {
-      msg.innerText = "Erro: " + error.message;
-    });
-});
-
-// 🔹 CADASTRO
-document.getElementById("registerBtn").addEventListener("click", () => {
-  createUserWithEmailAndPassword(auth, email.value, senha.value)
-    .then(() => {
-      msg.innerText = "Conta criada!";
-    })
-    .catch((error) => {
-      msg.innerText = "Erro: " + error.message;
-    });
-});
-
-window.addEventListener("DOMContentLoaded", () => {
-    const user = JSON.parse(localStorage.getItem("userLogged"));
-
-    const loginBtn = document.querySelector("#loginBtn");
-
-    // segurança extra (evita erro se não existir na página)
-    if (!loginBtn) return;
-
-    if (user) {
-        loginBtn.textContent = "Logout";
-
-        loginBtn.addEventListener("click", () => {
-            localStorage.removeItem("userLogged");
-            signOut(auth);
-            window.location.reload();
-        });
-
-    } else {
-        loginBtn.textContent = "Login";
-        loginBtn.href = "login.html";
-    }
-});
